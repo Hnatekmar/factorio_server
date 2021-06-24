@@ -1,0 +1,8 @@
+image:
+  repository: factoriotools/factorio
+  pullPolicy: IfNotPresent
+
+namespace: factorio
+
+ingress:
+  server_address: factorio.hnatekmar.xyz
