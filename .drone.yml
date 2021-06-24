@@ -1,0 +1,15 @@
+kind: pipeline
+type: kubernetes
+name: deploy
+platform:
+    arch: amd64
+steps:
+    - name: deploy to kubernetes
+      image: alpine/helm:3.5.4
+      environment:
+        KUBECONFIG_VAL:
+          from_secret: kubeconfig
+      commands:
+        - mkdir /root/.kube
+        - echo $KUBECONFIG_VAL | base64 -d > /root/.kube/config
+        - helm --kubeconfig /root/.kube/config upgrade factorio ./factorio_server
