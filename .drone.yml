@@ -7,22 +7,20 @@ steps:
 
     - name: deploy to kubernetes
       image: alpine/helm:3.5.4
-      volumes:
-        - factorio_folder:/factorio_data
+      privileged: true
+
       environment:
         KUBECONFIG_VAL:
           from_secret: kubeconfig
       commands:
         - mkdir /root/.kube
         - echo $KUBECONFIG_VAL | base64 -d > /root/.kube/config
+        - apk add nfs-utils
+        - rc-update add nfsmount
+        - rc-service nfsmount start
+        - mkdir /factorio_data
+        - mount -t nfs -o noatime,rw nas.hnatekmar.xyz:/factorio
         - helm delete factorio
         - rm -rf /factorio_data/*
         - cp -r ./factorio_data/* /factorio_data/
-        - helm --kubeconfig /root/.kube/config install factorio ./factorio_server
-volumes:
-    factorio_folder:
-      driver_opts:
-        type: nfs
-        o: addr=nas.hnatekmar.xyz,rw
-        device: ":/factorio"
-      
+        - helm --kubeconfig /root/.kube/config install factorio ./factorio_server   
