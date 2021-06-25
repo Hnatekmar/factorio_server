@@ -23,6 +23,16 @@ spec:
           nfs:
             path: /k8s/factorio
             server: 172.16.100.51
+      initContainers:
+        - name: clone current factorio into /factorio nfs share
+          image: macjustice/git-lfs
+          volumeMounts:
+            - mountPath: /factorio_data
+              name: factorio-data
+          command:
+            - git clone https://gitea.hnatekmar.xyz/hnatekmar/factorio_data.git data
+            - rm -rf /factorio_data/*
+            - mv data/* /factorio_data/
       containers:
       - name: factorio
         image: {{ .Values.image.repository }}
