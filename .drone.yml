@@ -15,7 +15,7 @@ steps:
         - echo $KUBECONFIG_VAL | base64 -d > /root/.kube/config
         - apk add nfs-utils
         - mkdir /factorio_data
-        - mount -t nfs -o noatime,rw nas.hnatekmar.xyz:/factorio /factorio_data
+        - mount -t nfs nas.hnatekmar.xyz:/factorio /factorio_data
         - helm delete factorio
         - rm -rf /factorio_data/*
         - cp -r ./factorio_data/* /factorio_data/
