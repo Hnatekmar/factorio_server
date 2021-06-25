@@ -7,8 +7,6 @@ steps:
 
     - name: deploy to kubernetes
       image: alpine/helm:3.5.4
-      privileged: true
-
       environment:
         KUBECONFIG_VAL:
           from_secret: kubeconfig
