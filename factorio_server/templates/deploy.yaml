@@ -25,17 +25,17 @@ spec:
             server: 172.16.100.51
       initContainers:
         - name: clone-server
-          image: alpine
+          image: debian
           volumeMounts:
             - mountPath: /factorio_data
               name: factorio-data
           command:
-            - apk add git-lfs
-            - apk add git
-            - git lfs init
+            - apt-get update && apt-get install -y git git-lfs && apt-get clean
             - git clone https://gitea.hnatekmar.xyz/hnatekmar/factorio_data.git data
+            - cd data
+            - git-lfs install
             - rm -rf /factorio_data/*
-            - mv data/* /factorio_data/
+            - mv * /factorio_data/
       containers:
       - name: factorio
         image: {{ .Values.image.repository }}
