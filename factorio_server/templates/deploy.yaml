@@ -24,7 +24,7 @@ spec:
             path: /k8s/factorio
             server: 172.16.100.51
       initContainers:
-        - name: clone current factorio into /factorio nfs share
+        - name: clone-server
           image: macjustice/git-lfs
           volumeMounts:
             - mountPath: /factorio_data
