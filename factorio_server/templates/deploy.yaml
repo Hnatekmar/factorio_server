@@ -25,11 +25,14 @@ spec:
             server: 172.16.100.51
       initContainers:
         - name: clone-server
-          image: macjustice/git-lfs
+          image: alpine
           volumeMounts:
             - mountPath: /factorio_data
               name: factorio-data
           command:
+            - apk add git-lfs
+            - apk add git
+            - git lfs init
             - git clone https://gitea.hnatekmar.xyz/hnatekmar/factorio_data.git data
             - rm -rf /factorio_data/*
             - mv data/* /factorio_data/
