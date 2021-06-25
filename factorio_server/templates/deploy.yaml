@@ -1,7 +1,6 @@
 {{ define "appName" }}
   {{- printf "%s-factorio" .Chart.Name -}}
 {{- end }}
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -19,6 +18,11 @@ spec:
       labels:
         app: {{ template "appName" . }}
     spec:
+      volumes:
+        - name: factorio-data
+          nfs:
+            path: /k8s/factorio
+            server: 172.16.100.51
       containers:
       - name: factorio
         image: {{ .Values.image.repository }}
@@ -26,6 +30,9 @@ spec:
           - containerPort: 34197
             hostPort: 34197
             protocol: UDP
+        volumeMounts:
+          - mountPath: /opt/factorio
+            name: factorio-data
 ---
 apiVersion: v1
 kind: Service
