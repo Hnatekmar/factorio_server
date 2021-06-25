@@ -21,7 +21,7 @@ spec:
       volumes:
         - name: factorio-data
           nfs:
-            path: /k8s/factorio
+            path: /factorio
             server: 172.16.100.51
       initContainers:
         - name: clone-server
