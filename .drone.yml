@@ -13,5 +13,6 @@ steps:
       commands:
         - mkdir /root/.kube
         - echo $KUBECONFIG_VAL | base64 -d > /root/.kube/config
-        - helm --kubeconfig /root/.kube/config upgrade factorio ./factorio_server -if
+        - helm delete factorio
+        - helm --kubeconfig /root/.kube/config upgrade factorio ./factorio_server
  
